@@ -52,7 +52,6 @@ function markSet(){
     })
 
     localStorage.setItem("ironquest_logs", JSON.stringify(log))
-    alert("Série guardada")
 
     document.getElementById("weight").value = ""
     document.getElementById("reps").value = ""
