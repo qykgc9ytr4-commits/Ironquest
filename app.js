@@ -36,18 +36,12 @@ document.getElementById("screen-"+screen).classList.add("active")
 
 function openWorkout(type){
 
-// esconder navbar
 document.getElementById("navbar").style.display = "none"
-
-// esconder botões treino
 document.getElementById("workout-picker").style.display = "none"
-
-// mudar título
 document.getElementById("workout-title").innerText = type.toUpperCase()
 
 showScreen("workout")
 
-// limpar sessão atual
 localStorage.setItem("ironquest_current", JSON.stringify([]))
 
 let container = document.getElementById("workout-list")
@@ -55,6 +49,7 @@ let container = document.getElementById("workout-list")
 let workout = workouts[type]
 
 let history = JSON.parse(localStorage.getItem("ironquest_history")) || []
+let current = JSON.parse(localStorage.getItem("ironquest_current")) || []
 
 let html = ""
 
@@ -70,10 +65,14 @@ let pr = validLogs.length
 ? Math.max(...validLogs.map(l => Number(l.weight)))
 : "-"
 
-html += `<div class="card">
-<h3>${ex} &nbsp;&nbsp; PR ${pr}kg</h3>`
-
 let targetSets = ex === "Plank" ? 2 : 3
+
+let doneSets = current.filter(l => l.exercise === ex).length
+
+let isComplete = doneSets >= targetSets
+
+html += `<div class="card ${isComplete ? 'done' : ''}">
+<h3>${ex} &nbsp;&nbsp; PR ${pr}kg ${isComplete ? '✔' : ''}</h3>`
 
 for(let i=1;i<=targetSets;i++){
 
@@ -91,7 +90,6 @@ html += `</div>`
 
 })
 
-// botão finalizar treino
 html += `<button class="primary" onclick="finishWorkout()">Finalizar Treino</button>`
 
 container.innerHTML = html
