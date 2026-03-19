@@ -76,6 +76,6 @@ function endWorkout(){
     document.getElementById("focus-mode").style.display = "none"
     document.getElementById("workout-selection").style.display = "block"
 
-    alert("Treino terminado 💪")
+    window.scrollTo(0,0)
 
 }
