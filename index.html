@@ -3,7 +3,6 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IronQuest</title>
-
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,7 +10,6 @@
 
 <div id="app">
 
-    <!-- HOME -->
     <div id="screen-home" class="screen active">
         <h1>IronQuest</h1>
 
@@ -30,52 +28,49 @@
         </div>
     </div>
 
-    <!-- TREINO -->
     <div id="screen-workout" class="screen">
+
         <h1 id="workout-title">Workout</h1>
 
-<div class="card" id="workout-selection">
-    <button class="primary" onclick="startWorkout('push')">PUSH</button>
-    <button class="primary" onclick="startWorkout('pull')">PULL</button>
-    <button class="primary" onclick="startWorkout('legs')">LEGS</button>
-</div>
+        <div class="card" id="workout-selection">
+            <button class="primary" onclick="startWorkout('push')">PUSH</button>
+            <button class="primary" onclick="startWorkout('pull')">PULL</button>
+            <button class="primary" onclick="startWorkout('legs')">LEGS</button>
+        </div>
 
-<div id="focus-mode" style="display:none;">
+        <div id="focus-mode" style="display:none;">
 
-    <div class="card">
-        <h2 id="exercise-name">Lat Pulldown</h2>
-        <p id="set-info">Série 1 / 3</p>
-        <div class="xp-bar">
-    <div class="xp-fill" id="workout-progress"></div>
-</div>
+            <div class="card">
 
-        <input id="weight" placeholder="Peso">
-        <input id="reps" placeholder="Reps">
+                <h2 id="exercise-name"></h2>
+                <p id="set-info"></p>
 
-        <button class="primary" onclick="markSet()">Marcar Série</button>
+                <div class="xp-bar">
+                    <div class="xp-fill" id="workout-progress"></div>
+                </div>
 
-        <button onclick="prevExercise()">Anterior</button>
-        <button onclick="nextExercise()">Próximo</button>
+                <input id="weight" placeholder="Peso">
+                <input id="reps" placeholder="Reps">
 
-        <button onclick="endWorkout()">Terminar Treino</button>
+                <button class="primary" onclick="markSet()">Marcar Série</button>
+
+                <button onclick="prevExercise()">Anterior</button>
+                <button onclick="nextExercise()">Próximo</button>
+
+                <button onclick="endWorkout()">Terminar Treino</button>
+
+            </div>
+
+        </div>
+
     </div>
 
-</div>
-    </div>
-
-    <!-- PERFIL -->
     <div id="screen-profile" class="screen">
         <h1>Perfil</h1>
-
-        <div class="card">
-            <p>Peso atual: 88kg</p>
-            <p>Total treinos: 12</p>
-        </div>
     </div>
 
 </div>
 
-<!-- NAVBAR -->
 <div class="navbar" id="navbar">
     <button onclick="showScreen('home')">Home</button>
     <button onclick="showScreen('workout')">Treino</button>
