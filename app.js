@@ -1,3 +1,8 @@
+let player = JSON.parse(localStorage.getItem("ironquest_player")) || {
+level:1,
+xp:0
+}
+  
 let workouts = {
 push: [
 "Chest Press",
@@ -114,6 +119,9 @@ container.innerHTML = html
 
 function finishWorkout(){
 
+let xp = calculateWorkoutXP()
+gainXP(xp)
+
 document.getElementById("navbar").style.display = "flex"
 document.getElementById("workout-picker").style.display = "block"
 document.getElementById("finish-container").style.display = "none"
@@ -223,5 +231,66 @@ tension:0.3
 
 document.getElementById("exercise-info").innerHTML =
 `PR atual: ${best || "-"} kg <br> Records batidos: ${data.length}`
+
+}
+
+function calculateWorkoutXP(){
+
+let current = JSON.parse(localStorage.getItem("ironquest_current")) || []
+
+let exercises = [...new Set(current.map(l=>l.exercise))]
+
+let completed = 0
+
+exercises.forEach(ex=>{
+
+let target = ex === "Plank" ? 2 : 3
+
+let done = current.filter(l=>l.exercise===ex).length
+
+if(done >= target) completed++
+
+})
+
+let xp = 40 + (completed * 5)
+
+return xp
+
+}
+
+function calculateWorkoutXP(){
+
+let current = JSON.parse(localStorage.getItem("ironquest_current")) || []
+
+let exercises = [...new Set(current.map(l=>l.exercise))]
+
+let completed = 0
+
+exercises.forEach(ex=>{
+
+let target = ex === "Plank" ? 2 : 3
+
+let done = current.filter(l=>l.exercise===ex).length
+
+if(done >= target) completed++
+
+})
+
+let xp = 40 + (completed * 5)
+
+return xp
+
+}
+
+function updateHome(){
+
+document.querySelector(".card h2").innerText =
+"Level " + player.level
+
+document.querySelector(".xp-fill").style.width =
+(player.xp / (100 + player.level*25))*100 + "%"
+
+document.querySelector(".card p").innerText =
+"XP " + player.xp + " / " + (100 + player.level*25)
 
 }
