@@ -135,5 +135,6 @@ current.push(entry)
 
 localStorage.setItem("ironquest_history", JSON.stringify(history))
 localStorage.setItem("ironquest_current", JSON.stringify(current))
-
+openWorkout(document.getElementById("workout-title").innerText.toLowerCase())
+  
 }
