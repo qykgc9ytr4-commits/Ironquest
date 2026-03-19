@@ -19,6 +19,7 @@ function startWorkout(type){
     exerciseIndex = 0
     set = 1
 
+    document.querySelector("#screen-workout .card").style.display = "none"
     document.getElementById("focus-mode").style.display = "block"
 
     renderExercise()
