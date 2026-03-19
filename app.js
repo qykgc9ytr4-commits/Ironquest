@@ -36,10 +36,18 @@ document.getElementById("screen-"+screen).classList.add("active")
 
 function openWorkout(type){
 
+// esconder navbar
 document.getElementById("navbar").style.display = "none"
+
+// esconder botões treino
+document.getElementById("workout-picker").style.display = "none"
+
+// mudar título
+document.getElementById("workout-title").innerText = type.toUpperCase()
+
 showScreen("workout")
 
-// ⭐ limpar treino atual
+// limpar sessão atual
 localStorage.setItem("ironquest_current", JSON.stringify([]))
 
 let container = document.getElementById("workout-list")
@@ -83,14 +91,25 @@ html += `</div>`
 
 })
 
+// botão finalizar treino
+html += `<button class="primary" onclick="finishWorkout()">Finalizar Treino</button>`
+
 container.innerHTML = html
 
 }
 
 function finishWorkout(){
 
+// mostrar navbar
 document.getElementById("navbar").style.display = "flex"
+
+// mostrar botões treino
 document.getElementById("workout-picker").style.display = "block"
+
+// limpar lista
+document.getElementById("workout-list").innerHTML = ""
+
+// repor título
 document.getElementById("workout-title").innerText = "Treino"
 
 showScreen("workout")
