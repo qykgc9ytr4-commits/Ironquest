@@ -43,6 +43,23 @@ document.getElementById("weight").value=last.weight
 }else{
 document.getElementById("weight").value=""
 }
+  let validLogs = logs.filter(l =>
+    l.exercise === currentWorkout[exerciseIndex] &&
+    l.reps >= 8 &&
+    l.reps <= 12
+)
+
+if(validLogs.length){
+
+    let pr = Math.max(...validLogs.map(l => Number(l.weight)))
+
+    document.getElementById("exercise-pr").innerText = "PR: " + pr + "kg"
+
+}else{
+
+    document.getElementById("exercise-pr").innerText = ""
+
+}
 
 }
 
