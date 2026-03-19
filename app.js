@@ -80,36 +80,46 @@ if(validLogs.length){
 
 function markSet(){
 
-let weight=document.getElementById("weight").value
-let reps=document.getElementById("reps").value
+let weight = document.getElementById("weight").value
+let reps = document.getElementById("reps").value
 
-let logs=JSON.parse(localStorage.getItem("ironquest_logs"))||[]
+let logs = JSON.parse(localStorage.getItem("ironquest_logs")) || []
 
 logs.push({
-exercise:currentWorkout[exerciseIndex],
-set:set,
-weight:weight,
-reps:reps,
-date:new Date().toISOString()
+    exercise: currentWorkout[exerciseIndex],
+    set: set,
+    weight: weight,
+    reps: reps,
+    date: new Date().toISOString()
 })
 
-localStorage.setItem("ironquest_logs",JSON.stringify(logs))
+localStorage.setItem("ironquest_logs", JSON.stringify(logs))
 
-document.getElementById("weight").value=""
-document.getElementById("reps").value=""
-
+// ⭐ aumentar série
 set++
 
-if(set>3){
-set=1
-exerciseIndex++
+let exerciseName = currentWorkout[exerciseIndex]
+
+// ⭐ guardar progresso deste exercício
+workoutProgress[exerciseName] = set
+
+// ⭐ se passou das 3 séries → ir para próximo exercício
+if(set > 3){
+    set = 1
+    exerciseIndex++
 }
 
-if(exerciseIndex>=currentWorkout.length){
-endWorkout()
-return
+// ⭐ se acabou treino
+if(exerciseIndex >= currentWorkout.length){
+    endWorkout()
+    return
 }
 
+// ⭐ limpar inputs
+document.getElementById("weight").value = ""
+document.getElementById("reps").value = ""
+
+// ⭐ atualizar UI
 renderExercise()
 
 }
