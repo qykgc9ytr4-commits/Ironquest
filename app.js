@@ -24,6 +24,8 @@ legs: [
 ]
 }
 
+let currentWorkoutType = null
+
 function showScreen(screen){
 
 document.querySelectorAll(".screen").forEach(s=>{
@@ -36,17 +38,27 @@ document.getElementById("screen-"+screen).classList.add("active")
 
 function openWorkout(type){
 
+currentWorkoutType = type
+
 document.getElementById("navbar").style.display = "none"
 document.getElementById("workout-picker").style.display = "none"
+document.getElementById("finish-container").style.display = "block"
+
 document.getElementById("workout-title").innerText = type.toUpperCase()
 
 showScreen("workout")
 
 localStorage.setItem("ironquest_current", JSON.stringify([]))
 
+renderWorkout()
+
+}
+
+function renderWorkout(){
+
 let container = document.getElementById("workout-list")
 
-let workout = workouts[type]
+let workout = workouts[currentWorkoutType]
 
 let history = JSON.parse(localStorage.getItem("ironquest_history")) || []
 let current = JSON.parse(localStorage.getItem("ironquest_current")) || []
@@ -76,10 +88,12 @@ html += `<div class="card ${isComplete ? 'done' : ''}">
 
 for(let i=1;i<=targetSets;i++){
 
+let prev = current.find(l => l.exercise === ex && l.set === i)
+
 html += `
 <div style="display:flex;gap:8px;margin-top:6px">
-<input id="${ex}-w-${i}" placeholder="Peso">
-<input id="${ex}-r-${i}" placeholder="Reps">
+<input id="${ex}-w-${i}" placeholder="Peso" value="${prev ? prev.weight : ""}">
+<input id="${ex}-r-${i}" placeholder="Reps" value="${prev ? prev.reps : ""}">
 <button onclick="saveSet('${ex}',${i})">✓</button>
 </div>
 `
@@ -90,25 +104,21 @@ html += `</div>`
 
 })
 
-html += `<button class="primary" onclick="finishWorkout()">Finalizar Treino</button>`
-
 container.innerHTML = html
 
 }
 
 function finishWorkout(){
 
-// mostrar navbar
 document.getElementById("navbar").style.display = "flex"
-
-// mostrar botões treino
 document.getElementById("workout-picker").style.display = "block"
+document.getElementById("finish-container").style.display = "none"
 
-// limpar lista
 document.getElementById("workout-list").innerHTML = ""
 
-// repor título
 document.getElementById("workout-title").innerText = "Treino"
+
+currentWorkoutType = null
 
 showScreen("workout")
 
@@ -131,10 +141,18 @@ date:new Date().toISOString()
 }
 
 history.push(entry)
+
+let index = current.findIndex(l => l.exercise === exercise && l.set === set)
+
+if(index >= 0){
+current[index] = entry
+}else{
 current.push(entry)
+}
 
 localStorage.setItem("ironquest_history", JSON.stringify(history))
 localStorage.setItem("ironquest_current", JSON.stringify(current))
-openWorkout(document.getElementById("workout-title").innerText.toLowerCase())
-  
+
+renderWorkout()
+
 }
