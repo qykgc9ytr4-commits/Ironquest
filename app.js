@@ -175,8 +175,6 @@ renderChart()
 
 select.onchange = renderChart
 
-alert("Stats carregadas")
-
 }
 
 function renderChart(){
@@ -185,25 +183,25 @@ let exercise = document.getElementById("exercise-select").value
 
 let history = JSON.parse(localStorage.getItem("ironquest_history")) || []
 
-let logs = history
-.filter(l => l.exercise === exercise && l.reps >= 8 && l.reps <= 12)
-.sort((a,b)=> new Date(a.date)-new Date(b.date))
+let logs = history.filter(l =>
+l.exercise === exercise &&
+l.reps >= 8 &&
+l.reps <= 12
+)
 
-// ⭐ agrupar por treino (data)
-let grouped = {}
+let best = 0
+let data = []
 
 logs.forEach(l => {
 
-let day = l.date.split("T")[0]
+let w = Number(l.weight)
 
-if(!grouped[day]) grouped[day] = []
-
-grouped[day].push(Number(l.weight))
+if(w > best){
+best = w
+data.push(best)
+}
 
 })
-
-// ⭐ obter melhor peso por treino
-let data = Object.values(grouped).map(arr => Math.max(...arr))
 
 let labels = data.map((_,i)=> i+1)
 
@@ -223,9 +221,7 @@ tension:0.3
 }
 })
 
-let pr = data.length ? Math.max(...data) : "-"
-
 document.getElementById("exercise-info").innerHTML =
-`PR atual: ${pr} kg <br> Treinos registados: ${data.length}`
+`PR atual: ${best || "-"} kg <br> Records batidos: ${data.length}`
 
 }
