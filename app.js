@@ -21,6 +21,7 @@ function startWorkout(type){
 
     document.getElementById("workout-selection").style.display = "none"
     document.getElementById("focus-mode").style.display = "block"
+    document.getElementById("navbar").style.display = "none"
 
     renderExercise()
 
@@ -75,6 +76,7 @@ function endWorkout(){
 
     document.getElementById("focus-mode").style.display = "none"
     document.getElementById("workout-selection").style.display = "block"
+    document.getElementById("navbar").style.display = "flex"
 
     window.scrollTo(0,0)
 
