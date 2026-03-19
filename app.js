@@ -31,6 +31,8 @@ function renderExercise(){
 
     document.getElementById("exercise-name").innerText = currentWorkout[exerciseIndex]
     document.getElementById("set-info").innerText = "Série "+set+" / 3"
+    let progress = ((exerciseIndex) / currentWorkout.length) * 100
+document.getElementById("workout-progress").style.width = progress + "%"
 
 }
 
