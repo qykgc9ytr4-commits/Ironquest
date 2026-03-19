@@ -38,6 +38,24 @@ document.getElementById("workout-progress").style.width = progress + "%"
 
 function markSet(){
 
+    let weight = document.getElementById("weight").value
+    let reps = document.getElementById("reps").value
+
+    let log = JSON.parse(localStorage.getItem("ironquest_logs")) || []
+
+    log.push({
+        exercise: currentWorkout[exerciseIndex],
+        set: set,
+        weight: weight,
+        reps: reps,
+        date: new Date().toISOString()
+    })
+
+    localStorage.setItem("ironquest_logs", JSON.stringify(log))
+
+    document.getElementById("weight").value = ""
+    document.getElementById("reps").value = ""
+
     set++
 
     if(set > 3){
