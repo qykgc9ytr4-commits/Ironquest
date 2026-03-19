@@ -36,6 +36,7 @@ document.getElementById("screen-"+screen).classList.add("active")
 
 function openWorkout(type){
 
+document.getElementById("navbar").style.display = "none"
 showScreen("workout")
 
 // ⭐ limpar treino atual
@@ -83,6 +84,16 @@ html += `</div>`
 })
 
 container.innerHTML = html
+
+}
+
+function finishWorkout(){
+
+document.getElementById("navbar").style.display = "flex"
+document.getElementById("workout-picker").style.display = "block"
+document.getElementById("workout-title").innerText = "Treino"
+
+showScreen("workout")
 
 }
 
