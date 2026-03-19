@@ -39,7 +39,6 @@ document.getElementById("screen-"+screen).classList.add("active")
 function openWorkout(type){
 
 currentWorkoutType = type
-localStorage.setItem("ironquest_workout_type", type)
 
 document.getElementById("navbar").style.display = "none"
 document.getElementById("workout-picker").style.display = "none"
@@ -123,8 +122,6 @@ currentWorkoutType = null
 
 showScreen("workout")
 
-localStorage.removeItem("ironquest_workout_type")
-
 }
 
 function saveSet(exercise,set){
@@ -157,36 +154,5 @@ localStorage.setItem("ironquest_history", JSON.stringify(history))
 localStorage.setItem("ironquest_current", JSON.stringify(current))
 
 renderWorkout()
-
-}
-
-window.onload = function(){
-
-let type = localStorage.getItem("ironquest_workout_type")
-
-let raw = localStorage.getItem("ironquest_current")
-
-console.log("TYPE:", type)
-console.log("RAW CURRENT:", raw)
-
-let current = JSON.parse(raw || "[]")
-
-console.log("PARSED:", current)
-
-if(type){
-
-currentWorkoutType = type
-
-showScreen("workout")
-
-document.getElementById("navbar").style.display = "none"
-document.getElementById("workout-picker").style.display = "none"
-document.getElementById("finish-container").style.display = "block"
-
-document.getElementById("workout-title").innerText = type.toUpperCase()
-
-renderWorkout()
-
-}
 
 }
