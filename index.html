@@ -4,159 +4,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IronQuest</title>
 
-<style>
-body{
-background:#0f0f0f;
-color:white;
-font-family:Arial;
-text-align:center;
-padding:20px;
-}
-
-.card{
-background:#1c1c1c;
-padding:20px;
-border-radius:16px;
-margin-top:20px;
-}
-
-button{
-background:#ff3b3b;
-border:none;
-padding:16px;
-width:100%;
-color:white;
-font-size:18px;
-border-radius:12px;
-margin-top:10px;
-}
-
-.navbtn{
-background:#444;
-}
-
-input{
-padding:10px;
-font-size:18px;
-width:120px;
-text-align:center;
-}
-
-.bar{
-height:20px;
-background:#333;
-border-radius:10px;
-overflow:hidden;
-margin-top:10px;
-}
-
-.fill{
-height:100%;
-background:#4cff4c;
-width:0%;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>🔥 IronQuest</h1>
+<div id="app">
 
-<div class="card">
-<h2 id="exercise"></h2>
-<p id="set"></p>
+    <!-- HOME -->
+    <div id="screen-home" class="screen active">
+        <h1>IronQuest</h1>
 
-Peso<br>
-<input id="peso">
+        <div class="card">
+            <h2>Level 3</h2>
+            <div class="xp-bar">
+                <div class="xp-fill"></div>
+            </div>
+            <p>XP 120 / 200</p>
+        </div>
 
-<br><br>
+        <div class="card">
+            <h3>Resumo semanal</h3>
+            <p>Treinos: 2</p>
+            <p>Tempo: 110 min</p>
+        </div>
+    </div>
 
-Reps<br>
-<input id="reps">
+    <!-- TREINO -->
+    <div id="screen-workout" class="screen">
+        <h1>Treino</h1>
 
-<button onclick="mark()">MARCAR SÉRIE</button>
+        <div class="card">
+            <button class="primary">PUSH</button>
+            <button class="primary">PULL</button>
+            <button class="primary">LEGS</button>
+        </div>
+    </div>
 
-<button class="navbtn" onclick="prev()">⬅️ Exercício anterior</button>
-<button class="navbtn" onclick="next()">➡️ Próximo exercício</button>
+    <!-- PERFIL -->
+    <div id="screen-profile" class="screen">
+        <h1>Perfil</h1>
+
+        <div class="card">
+            <p>Peso atual: 88kg</p>
+            <p>Total treinos: 12</p>
+        </div>
+    </div>
 
 </div>
 
-<div class="card">
-<h3>XP</h3>
-<div class="bar"><div class="fill" id="xpbar"></div></div>
-<p id="xptext"></p>
+<!-- NAVBAR -->
+<div class="navbar">
+    <button onclick="showScreen('home')">Home</button>
+    <button onclick="showScreen('workout')">Treino</button>
+    <button onclick="showScreen('profile')">Perfil</button>
 </div>
 
-<script>
-
-let exercises = [
-"Lat Pulldown",
-"Remada Sentada",
-"Reverse Pec Deck",
-"Biceps Curl",
-"Hammer Curl"
-]
-
-let exIndex = parseInt(localStorage.getItem("exIndex")) || 0
-let set = parseInt(localStorage.getItem("set")) || 1
-let xp = parseInt(localStorage.getItem("xp")) || 0
-
-function save(){
-localStorage.setItem("exIndex",exIndex)
-localStorage.setItem("set",set)
-localStorage.setItem("xp",xp)
-}
-
-function render(){
-
-if(exIndex < 0) exIndex = 0
-if(exIndex >= exercises.length) exIndex = exercises.length -1
-
-document.getElementById("exercise").innerText = exercises[exIndex]
-document.getElementById("set").innerText = "Série "+set+" / 3"
-document.getElementById("xptext").innerText = xp+" XP"
-document.getElementById("xpbar").style.width = xp+"%"
-}
-
-function mark(){
-
-let peso = document.getElementById("peso").value
-let reps = document.getElementById("reps").value
-
-if(!peso || !reps){
-alert("Preenche peso e reps")
-return
-}
-
-xp += 5
-set++
-
-if(set > 3){
-set = 1
-exIndex++
-}
-
-save()
-render()
-}
-
-function prev(){
-exIndex--
-set = 1
-save()
-render()
-}
-
-function next(){
-exIndex++
-set = 1
-save()
-render()
-}
-
-render()
-
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
