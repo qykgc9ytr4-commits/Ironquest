@@ -163,9 +163,17 @@ renderWorkout()
 window.onload = function(){
 
 let type = localStorage.getItem("ironquest_workout_type")
-let current = JSON.parse(localStorage.getItem("ironquest_current") || "[]")
 
-if(type && current.length > 0){
+let raw = localStorage.getItem("ironquest_current")
+
+console.log("TYPE:", type)
+console.log("RAW CURRENT:", raw)
+
+let current = JSON.parse(raw || "[]")
+
+console.log("PARSED:", current)
+
+if(type){
 
 currentWorkoutType = type
 
