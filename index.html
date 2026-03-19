@@ -32,13 +32,32 @@
 
     <!-- TREINO -->
     <div id="screen-workout" class="screen">
-        <h1>Treino</h1>
+        <h1 id="workout-title">Workout</h1>
 
-        <div class="card">
-            <button class="primary">PUSH</button>
-            <button class="primary">PULL</button>
-            <button class="primary">LEGS</button>
-        </div>
+<div class="card">
+    <button class="primary" onclick="startWorkout('push')">PUSH</button>
+    <button class="primary" onclick="startWorkout('pull')">PULL</button>
+    <button class="primary" onclick="startWorkout('legs')">LEGS</button>
+</div>
+
+<div id="focus-mode" style="display:none;">
+
+    <div class="card">
+        <h2 id="exercise-name">Lat Pulldown</h2>
+        <p id="set-info">Série 1 / 3</p>
+
+        <input id="weight" placeholder="Peso">
+        <input id="reps" placeholder="Reps">
+
+        <button class="primary" onclick="markSet()">Marcar Série</button>
+
+        <button onclick="prevExercise()">Anterior</button>
+        <button onclick="nextExercise()">Próximo</button>
+
+        <button onclick="endWorkout()">Terminar Treino</button>
+    </div>
+
+</div>
     </div>
 
     <!-- PERFIL -->
