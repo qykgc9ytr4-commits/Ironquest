@@ -1,151 +1,103 @@
 let workouts = {
-push:["Chest Press","Shoulder Press","Lateral Raises","Triceps Pushdown","Plank"],
-pull:["Lat Pulldown","Seated Row","Reverse Pec Deck","Biceps Curl","Hammer Curl"],
-legs:["Leg Press","Bulgarian Split Squat","Leg Curl","Leg Extension","Calf Raises"]
+push: [
+"Chest Press",
+"Shoulder Press",
+"Lateral Raises",
+"Triceps Pushdown",
+"Plank"
+],
+
+pull: [
+"Lat Pulldown",
+"Seated Row",
+"Reverse Pec Deck",
+"Biceps Curl",
+"Hammer Curl"
+],
+
+legs: [
+"Leg Press",
+"Bulgarian Split Squat",
+"Leg Curl",
+"Leg Extension",
+"Calf Raise"
+]
 }
 
-let currentWorkout=null
-let exerciseIndex=0
-let set=1
-let workoutProgress = {}
+function showScreen(screen){
 
-function showScreen(name){
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
-document.getElementById("screen-"+name).classList.add("active")
-}
+document.querySelectorAll(".screen").forEach(s=>{
+s.classList.remove("active")
+})
 
-function startWorkout(type){
-
-workoutProgress = {}
-currentWorkout=workouts[type]
-exerciseIndex=0
-set=1
-
-document.getElementById("workout-selection").style.display="none"
-document.getElementById("focus-mode").style.display="block"
-document.getElementById("navbar").style.display="none"
-
-renderExercise()
+document.getElementById("screen-"+screen).classList.add("active")
 
 }
 
-function renderExercise(){
+function openWorkout(type){
 
-let exerciseName = currentWorkout[exerciseIndex]
+showScreen("workout")
 
-// ⭐ recuperar série guardada deste exercício
-set = workoutProgress[exerciseName] || set
+let container = document.getElementById("workout-list")
 
-document.getElementById("exercise-name").innerText = exerciseName
-document.getElementById("set-info").innerText = "Série " + set + " / 3"
-
-let progress = ((exerciseIndex + (set-1)/3) / currentWorkout.length) * 100
-document.getElementById("workout-progress").style.width = progress + "%"
+let workout = workouts[type]
 
 let logs = JSON.parse(localStorage.getItem("ironquest_logs")) || []
 
-// ⭐ preencher peso anterior
-let last = logs.slice().reverse().find(l => l.exercise === exerciseName)
+let html = ""
 
-if(last){
-    document.getElementById("weight").value = last.weight
-}else{
-    document.getElementById("weight").value = ""
-}
+workout.forEach(ex => {
 
-// ⭐ preencher reps anteriores
-if(last){
-    document.getElementById("reps").value = last.reps
-}else{
-    document.getElementById("reps").value = ""
-}
-
-// ⭐ calcular PR
 let validLogs = logs.filter(l =>
-    l.exercise === exerciseName &&
-    l.reps >= 8 &&
-    l.reps <= 12
+l.exercise === ex &&
+l.reps >= 8 &&
+l.reps <= 12
 )
 
-if(validLogs.length){
+let pr = validLogs.length
+? Math.max(...validLogs.map(l => Number(l.weight)))
+: "-"
 
-    let pr = Math.max(...validLogs.map(l => Number(l.weight)))
-    document.getElementById("exercise-pr").innerText = "PR: " + pr + "kg"
+html += `<div class="card">
+<h3>${ex} &nbsp;&nbsp; PR ${pr}kg</h3>`
 
-}else{
-    document.getElementById("exercise-pr").innerText = ""
+let targetSets = ex === "Plank" ? 2 : 3
+
+for(let i=1;i<=targetSets;i++){
+
+html += `
+<div style="display:flex;gap:8px;margin-top:6px">
+<input id="${ex}-w-${i}" placeholder="Peso">
+<input id="${ex}-r-${i}" placeholder="Reps">
+<button onclick="saveSet('${ex}',${i})">✓</button>
+</div>
+`
+
 }
 
+html += `</div>`
+
+})
+
+container.innerHTML = html
+
 }
 
-function markSet(){
+function saveSet(exercise,set){
 
-let weight = document.getElementById("weight").value
-let reps = document.getElementById("reps").value
+let weight = document.getElementById(`${exercise}-w-${set}`).value
+let reps = document.getElementById(`${exercise}-r-${set}`).value
 
 let logs = JSON.parse(localStorage.getItem("ironquest_logs")) || []
 
 logs.push({
-    exercise: currentWorkout[exerciseIndex],
-    set: set,
-    weight: weight,
-    reps: reps,
-    date: new Date().toISOString()
+exercise,
+set,
+weight,
+reps,
+date:new Date().toISOString()
 })
 
-localStorage.setItem("ironquest_logs", JSON.stringify(logs))
-
-// ⭐ aumentar série
-set++
-
-let exerciseName = currentWorkout[exerciseIndex]
-
-// ⭐ guardar progresso deste exercício
-workoutProgress[exerciseName] = set
-
-// ⭐ se passou das 3 séries → ir para próximo exercício
-if(set > 3){
-    set = 1
-    exerciseIndex++
-}
-
-// ⭐ se acabou treino
-if(exerciseIndex >= currentWorkout.length){
-    endWorkout()
-    return
-}
-
-// ⭐ limpar inputs
-document.getElementById("weight").value = ""
-document.getElementById("reps").value = ""
-
-// ⭐ atualizar UI
-renderExercise()
-
-}
-
-function nextExercise(){
-if(exerciseIndex<currentWorkout.length-1){
-exerciseIndex++
-set=1
-renderExercise()
-}
-}
-
-function prevExercise(){
-if(exerciseIndex>0){
-exerciseIndex--
-set=1
-renderExercise()
-}
-}
-
-function endWorkout(){
-
-document.getElementById("focus-mode").style.display="none"
-document.getElementById("workout-selection").style.display="block"
-document.getElementById("navbar").style.display="flex"
-
-window.scrollTo(0,0)
+localStorage.setItem("ironquest_logs",JSON.stringify(logs))
 
 }
