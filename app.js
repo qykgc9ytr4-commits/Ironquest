@@ -31,22 +31,38 @@ renderExercise()
 
 function renderExercise(){
 
-document.getElementById("exercise-name").innerText=currentWorkout[exerciseIndex]
-document.getElementById("set-info").innerText="Série "+set+" / 3"
+let exerciseName = currentWorkout[exerciseIndex]
 
-let progress=((exerciseIndex+(set-1)/3)/currentWorkout.length)*100
-document.getElementById("workout-progress").style.width=progress+"%"
+// ⭐ recuperar série guardada deste exercício
+set = workoutProgress[exerciseName] || set
 
-let logs=JSON.parse(localStorage.getItem("ironquest_logs"))||[]
-let last=logs.slice().reverse().find(l=>l.exercise===currentWorkout[exerciseIndex])
+document.getElementById("exercise-name").innerText = exerciseName
+document.getElementById("set-info").innerText = "Série " + set + " / 3"
+
+let progress = ((exerciseIndex + (set-1)/3) / currentWorkout.length) * 100
+document.getElementById("workout-progress").style.width = progress + "%"
+
+let logs = JSON.parse(localStorage.getItem("ironquest_logs")) || []
+
+// ⭐ preencher peso anterior
+let last = logs.slice().reverse().find(l => l.exercise === exerciseName)
 
 if(last){
-document.getElementById("weight").value=last.weight
+    document.getElementById("weight").value = last.weight
 }else{
-document.getElementById("weight").value=""
+    document.getElementById("weight").value = ""
 }
-  let validLogs = logs.filter(l =>
-    l.exercise === currentWorkout[exerciseIndex] &&
+
+// ⭐ preencher reps anteriores
+if(last){
+    document.getElementById("reps").value = last.reps
+}else{
+    document.getElementById("reps").value = ""
+}
+
+// ⭐ calcular PR
+let validLogs = logs.filter(l =>
+    l.exercise === exerciseName &&
     l.reps >= 8 &&
     l.reps <= 12
 )
@@ -54,13 +70,10 @@ document.getElementById("weight").value=""
 if(validLogs.length){
 
     let pr = Math.max(...validLogs.map(l => Number(l.weight)))
-
     document.getElementById("exercise-pr").innerText = "PR: " + pr + "kg"
 
 }else{
-
     document.getElementById("exercise-pr").innerText = ""
-
 }
 
 }
