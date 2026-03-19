@@ -34,6 +34,10 @@ s.classList.remove("active")
 
 document.getElementById("screen-"+screen).classList.add("active")
 
+if(screen === "profile"){
+loadStats()
+}
+
 }
 
 function openWorkout(type){
@@ -154,5 +158,58 @@ localStorage.setItem("ironquest_history", JSON.stringify(history))
 localStorage.setItem("ironquest_current", JSON.stringify(current))
 
 renderWorkout()
+
+}
+
+function loadStats(){
+
+let select = document.getElementById("exercise-select")
+
+let history = JSON.parse(localStorage.getItem("ironquest_history")) || []
+
+let exercises = [...new Set(history.map(l => l.exercise))]
+
+select.innerHTML = exercises.map(e => `<option>${e}</option>`).join("")
+
+renderChart()
+
+select.onchange = renderChart
+
+}
+
+function renderChart(){
+
+let exercise = document.getElementById("exercise-select").value
+
+let history = JSON.parse(localStorage.getItem("ironquest_history")) || []
+
+let logs = history
+.filter(l => l.exercise === exercise && l.reps >= 8 && l.reps <= 12)
+.sort((a,b)=> new Date(a.date)-new Date(b.date))
+
+let data = logs.map(l => Number(l.weight))
+
+let labels = logs.map((_,i)=> i+1)
+
+let ctx = document.getElementById("pr-chart")
+
+if(window.chart) window.chart.destroy()
+
+window.chart = new Chart(ctx,{
+type:"line",
+data:{
+labels,
+datasets:[{
+label:"PR Progress",
+data,
+tension:0.3
+}]
+}
+})
+
+let pr = data.length ? Math.max(...data) : "-"
+
+document.getElementById("exercise-info").innerHTML =
+`PR atual: ${pr} kg <br> Registos: ${data.length}`
 
 }
