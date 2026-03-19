@@ -1,8 +1,3 @@
-let player = JSON.parse(localStorage.getItem("ironquest_player")) || {
-level:1,
-xp:0
-}
-  
 let workouts = {
 push: [
 "Chest Press",
@@ -30,6 +25,11 @@ legs: [
 }
 
 let currentWorkoutType = null
+
+let player = JSON.parse(localStorage.getItem("ironquest_player")) || {
+level:1,
+xp:0
+}
 
 function showScreen(screen){
 
@@ -169,6 +169,64 @@ renderWorkout()
 
 }
 
+function calculateWorkoutXP(){
+
+let current = JSON.parse(localStorage.getItem("ironquest_current")) || []
+
+let exercises = [...new Set(current.map(l=>l.exercise))]
+
+let completed = 0
+
+exercises.forEach(ex=>{
+
+let target = ex === "Plank" ? 2 : 3
+
+let done = current.filter(l=>l.exercise===ex).length
+
+if(done >= target) completed++
+
+})
+
+let xp = 40 + (completed * 5)
+
+return xp
+
+}
+
+function gainXP(amount){
+
+player.xp += amount
+
+let needed = 100 + (player.level * 25)
+
+while(player.xp >= needed){
+
+player.xp -= needed
+player.level++
+
+needed = 100 + (player.level * 25)
+
+}
+
+localStorage.setItem("ironquest_player",JSON.stringify(player))
+
+updateHome()
+
+}
+
+function updateHome(){
+
+document.querySelector(".card h2").innerText =
+"Level " + player.level
+
+document.querySelector(".xp-fill").style.width =
+(player.xp / (100 + player.level*25))*100 + "%"
+
+document.querySelector(".card p").innerText =
+"XP " + player.xp + " / " + (100 + player.level*25)
+
+}
+
 function loadStats(){
 
 let select = document.getElementById("exercise-select")
@@ -234,63 +292,4 @@ document.getElementById("exercise-info").innerHTML =
 
 }
 
-function calculateWorkoutXP(){
-
-let current = JSON.parse(localStorage.getItem("ironquest_current")) || []
-
-let exercises = [...new Set(current.map(l=>l.exercise))]
-
-let completed = 0
-
-exercises.forEach(ex=>{
-
-let target = ex === "Plank" ? 2 : 3
-
-let done = current.filter(l=>l.exercise===ex).length
-
-if(done >= target) completed++
-
-})
-
-let xp = 40 + (completed * 5)
-
-return xp
-
-}
-
-function calculateWorkoutXP(){
-
-let current = JSON.parse(localStorage.getItem("ironquest_current")) || []
-
-let exercises = [...new Set(current.map(l=>l.exercise))]
-
-let completed = 0
-
-exercises.forEach(ex=>{
-
-let target = ex === "Plank" ? 2 : 3
-
-let done = current.filter(l=>l.exercise===ex).length
-
-if(done >= target) completed++
-
-})
-
-let xp = 40 + (completed * 5)
-
-return xp
-
-}
-
-function updateHome(){
-
-document.querySelector(".card h2").innerText =
-"Level " + player.level
-
-document.querySelector(".xp-fill").style.width =
-(player.xp / (100 + player.level*25))*100 + "%"
-
-document.querySelector(".card p").innerText =
-"XP " + player.xp + " / " + (100 + player.level*25)
-
-}
+updateHome()
