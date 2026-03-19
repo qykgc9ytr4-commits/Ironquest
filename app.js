@@ -64,7 +64,6 @@ function markSet(){
     }
 
     if(exerciseIndex >= currentWorkout.length){
-        alert("Treino completo 💪")
         return
     }
 
