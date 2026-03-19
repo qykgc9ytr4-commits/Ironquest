@@ -7,6 +7,7 @@ legs:["Leg Press","Bulgarian Split Squat","Leg Curl","Leg Extension","Calf Raise
 let currentWorkout=null
 let exerciseIndex=0
 let set=1
+let workoutProgress = {}
 
 function showScreen(name){
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
@@ -15,6 +16,7 @@ document.getElementById("screen-"+name).classList.add("active")
 
 function startWorkout(type){
 
+workoutProgress = {}
 currentWorkout=workouts[type]
 exerciseIndex=0
 set=1
