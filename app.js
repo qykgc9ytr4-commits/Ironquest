@@ -189,9 +189,23 @@ let logs = history
 .filter(l => l.exercise === exercise && l.reps >= 8 && l.reps <= 12)
 .sort((a,b)=> new Date(a.date)-new Date(b.date))
 
-let data = logs.map(l => Number(l.weight))
+// ⭐ agrupar por treino (data)
+let grouped = {}
 
-let labels = logs.map((_,i)=> i+1)
+logs.forEach(l => {
+
+let day = l.date.split("T")[0]
+
+if(!grouped[day]) grouped[day] = []
+
+grouped[day].push(Number(l.weight))
+
+})
+
+// ⭐ obter melhor peso por treino
+let data = Object.values(grouped).map(arr => Math.max(...arr))
+
+let labels = data.map((_,i)=> i+1)
 
 let ctx = document.getElementById("pr-chart")
 
@@ -212,6 +226,6 @@ tension:0.3
 let pr = data.length ? Math.max(...data) : "-"
 
 document.getElementById("exercise-info").innerHTML =
-`PR atual: ${pr} kg <br> Registos: ${data.length}`
+`PR atual: ${pr} kg <br> Treinos registados: ${data.length}`
 
 }
