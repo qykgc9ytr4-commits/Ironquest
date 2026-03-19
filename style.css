@@ -67,6 +67,14 @@ width:0%;
 background:#4CAF50;
 }
 
+input{
+width:100%;
+padding:10px;
+margin-top:8px;
+border-radius:8px;
+border:none;
+}
+
 .popup{
 position:fixed;
 top:0;
