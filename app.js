@@ -169,13 +169,13 @@ if(type && current.length > 0){
 
 currentWorkoutType = type
 
+showScreen("workout")
+
 document.getElementById("navbar").style.display = "none"
 document.getElementById("workout-picker").style.display = "none"
 document.getElementById("finish-container").style.display = "block"
 
 document.getElementById("workout-title").innerText = type.toUpperCase()
-
-showScreen("workout")
 
 renderWorkout()
 
