@@ -11,6 +11,7 @@
 
 <div id="app">
 
+<!-- HOME -->
 <div id="screen-home" class="screen active">
 
 <h1>IronQuest</h1>
@@ -27,16 +28,15 @@
 
 </div>
 
+<!-- WORKOUT -->
 <div id="screen-workout" class="screen">
 
 <h1 id="workout-title">Treino</h1>
 
 <div id="workout-picker">
-
 <button class="primary" onclick="openWorkout('push')">PUSH</button>
 <button class="primary" onclick="openWorkout('pull')">PULL</button>
 <button class="primary" onclick="openWorkout('legs')">LEGS</button>
-
 </div>
 
 <div id="workout-list"></div>
@@ -47,9 +47,30 @@
 
 </div>
 
+<!-- PROFILE -->
 <div id="screen-profile" class="screen">
 
-<h1>Stats</h1>
+<h1>Perfil</h1>
+
+<div class="card" id="profile-card">
+
+<div id="profile-view"></div>
+
+<div id="profile-edit" style="display:none">
+
+<input id="age" placeholder="Idade">
+<input id="height" placeholder="Altura cm">
+<input id="weight" placeholder="Peso kg">
+
+<button class="primary" onclick="saveProfile()">Guardar</button>
+
+</div>
+
+<button class="primary" onclick="editProfile()">Editar</button>
+
+</div>
+
+<h2>Stats</h2>
 
 <div class="card">
 <select id="exercise-select"></select>
