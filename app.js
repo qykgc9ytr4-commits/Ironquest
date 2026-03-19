@@ -1,14 +1,17 @@
-let workouts = {
+let workouts={
 push:["Chest Press","Shoulder Press","Lateral Raises","Triceps Pushdown","Plank"],
 pull:["Lat Pulldown","Seated Row","Reverse Pec Deck","Biceps Curl","Hammer Curl"],
 legs:["Leg Press","Bulgarian Split Squat","Leg Curl","Leg Extension","Calf Raise"]
 }
 
-let currentWorkoutType = null
+let currentWorkoutType=null
 
-let player = JSON.parse(localStorage.getItem("ironquest_player")) || {
-level:1,
-xp:0
+let player=JSON.parse(localStorage.getItem("ironquest_player"))||{
+level:1,xp:0
+}
+
+let profile=JSON.parse(localStorage.getItem("ironquest_profile"))||{
+age:"",height:"",weight:""
 }
 
 function showScreen(screen){
@@ -16,13 +19,16 @@ function showScreen(screen){
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
 document.getElementById("screen-"+screen).classList.add("active")
 
-if(screen==="profile") loadStats()
+if(screen==="profile"){
+loadStats()
+loadProfile()
+}
 
 }
 
 function openWorkout(type){
 
-currentWorkoutType = type
+currentWorkoutType=type
 
 document.getElementById("navbar").style.display="none"
 document.getElementById("workout-picker").style.display="none"
@@ -51,7 +57,7 @@ let html=""
 
 workout.forEach(ex=>{
 
-let validLogs=history.filter(l=>l.exercise===ex && l.reps>=8 && l.reps<=12)
+let validLogs=history.filter(l=>l.exercise===ex&&l.reps>=8&&l.reps<=12)
 
 let pr=validLogs.length?Math.max(...validLogs.map(l=>Number(l.weight))):"-"
 
@@ -66,7 +72,7 @@ html+=`<div class="card ${complete?'done':''}">
 
 for(let i=1;i<=target;i++){
 
-let prev=current.find(l=>l.exercise===ex && l.set===i)
+let prev=current.find(l=>l.exercise===ex&&l.set===i)
 
 html+=`
 <div style="display:flex;gap:8px;margin-top:6px">
@@ -97,7 +103,7 @@ let entry={exercise,set,weight,reps,date:new Date().toISOString()}
 
 history.push(entry)
 
-let index=current.findIndex(l=>l.exercise===exercise && l.set===set)
+let index=current.findIndex(l=>l.exercise===exercise&&l.set===set)
 
 if(index>=0) current[index]=entry
 else current.push(entry)
@@ -150,12 +156,10 @@ let leveled=false
 let needed=100+(player.level*25)
 
 while(player.xp>=needed){
-
 player.xp-=needed
 player.level++
 leveled=true
 needed=100+(player.level*25)
-
 }
 
 localStorage.setItem("ironquest_player",JSON.stringify(player))
@@ -174,22 +178,53 @@ let needed=100+(player.level*25)
 
 document.querySelector(".xp-fill").style.width=(player.xp/needed*100)+"%"
 
-document.querySelector(".card p").innerText=
-`XP ${player.xp} / ${needed}`
+document.querySelector(".card p").innerText=`XP ${player.xp} / ${needed}`
 
 }
 
 function showLevelUp(){
-
-document.getElementById("levelup-text").innerText=
-"Agora és Level "+player.level
-
+document.getElementById("levelup-text").innerText="Agora és Level "+player.level
 document.getElementById("levelup-popup").style.display="flex"
-
 }
 
 function closeLevelUp(){
 document.getElementById("levelup-popup").style.display="none"
+}
+
+function loadProfile(){
+
+let view=document.getElementById("profile-view")
+
+view.innerHTML=`
+<p>Idade: ${profile.age||"-"}</p>
+<p>Altura: ${profile.height||"-"} cm</p>
+<p>Peso: ${profile.weight||"-"} kg</p>
+`
+
+}
+
+function editProfile(){
+
+document.getElementById("profile-edit").style.display="block"
+
+document.getElementById("age").value=profile.age
+document.getElementById("height").value=profile.height
+document.getElementById("weight").value=profile.weight
+
+}
+
+function saveProfile(){
+
+profile.age=document.getElementById("age").value
+profile.height=document.getElementById("height").value
+profile.weight=document.getElementById("weight").value
+
+localStorage.setItem("ironquest_profile",JSON.stringify(profile))
+
+document.getElementById("profile-edit").style.display="none"
+
+loadProfile()
+
 }
 
 function loadStats(){
@@ -214,7 +249,7 @@ let exercise=document.getElementById("exercise-select").value
 
 let history=JSON.parse(localStorage.getItem("ironquest_history"))||[]
 
-let logs=history.filter(l=>l.exercise===exercise && l.reps>=8 && l.reps<=12)
+let logs=history.filter(l=>l.exercise===exercise&&l.reps>=8&&l.reps<=12)
 
 let best=0
 let data=[]
@@ -232,8 +267,7 @@ if(window.chart) window.chart.destroy()
 
 window.chart=new Chart(ctx,{
 type:"line",
-data:{labels,
-datasets:[{label:"PR Progress",data,tension:0.3}]}
+data:{labels,datasets:[{label:"PR Progress",data,tension:0.3}]}
 })
 
 document.getElementById("exercise-info").innerHTML=
