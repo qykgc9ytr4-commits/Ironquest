@@ -175,6 +175,8 @@ renderChart()
 
 select.onchange = renderChart
 
+alert("Stats carregadas")
+
 }
 
 function renderChart(){
