@@ -74,6 +74,8 @@ function prevExercise(){
 function endWorkout(){
 
     document.getElementById("focus-mode").style.display = "none"
-    alert("Treino terminado")
+    document.querySelector("#screen-workout .card").style.display = "block"
+
+    alert("Treino terminado 💪")
 
 }
