@@ -38,17 +38,20 @@ function openWorkout(type){
 
 showScreen("workout")
 
+// ⭐ limpar treino atual
+localStorage.setItem("ironquest_current", JSON.stringify([]))
+
 let container = document.getElementById("workout-list")
 
 let workout = workouts[type]
 
-let logs = JSON.parse(localStorage.getItem("ironquest_logs")) || []
+let history = JSON.parse(localStorage.getItem("ironquest_history")) || []
 
 let html = ""
 
 workout.forEach(ex => {
 
-let validLogs = logs.filter(l =>
+let validLogs = history.filter(l =>
 l.exercise === ex &&
 l.reps >= 8 &&
 l.reps <= 12
