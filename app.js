@@ -91,16 +91,21 @@ function saveSet(exercise,set){
 let weight = document.getElementById(`${exercise}-w-${set}`).value
 let reps = document.getElementById(`${exercise}-r-${set}`).value
 
-let logs = JSON.parse(localStorage.getItem("ironquest_logs")) || []
+let history = JSON.parse(localStorage.getItem("ironquest_history")) || []
+let current = JSON.parse(localStorage.getItem("ironquest_current")) || []
 
-logs.push({
+let entry = {
 exercise,
 set,
 weight,
 reps,
 date:new Date().toISOString()
-})
+}
 
-localStorage.setItem("ironquest_logs",JSON.stringify(logs))
+history.push(entry)
+current.push(entry)
+
+localStorage.setItem("ironquest_history", JSON.stringify(history))
+localStorage.setItem("ironquest_current", JSON.stringify(current))
 
 }
