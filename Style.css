@@ -1,0 +1,65 @@
+body{
+    margin:0;
+    background:#0F0F10;
+    color:white;
+    font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.screen{
+    display:none;
+    padding:20px;
+    padding-bottom:100px;
+}
+
+.screen.active{
+    display:block;
+}
+
+.card{
+    background:#1C1C1F;
+    padding:20px;
+    border-radius:16px;
+    margin-top:20px;
+}
+
+.primary{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:12px;
+    background:#FF3B3B;
+    color:white;
+    font-size:18px;
+    margin-top:10px;
+}
+
+.navbar{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:#1C1C1F;
+    display:flex;
+}
+
+.navbar button{
+    flex:1;
+    padding:18px;
+    border:none;
+    background:none;
+    color:white;
+    font-size:16px;
+}
+
+.xp-bar{
+    height:14px;
+    background:#333;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.xp-fill{
+    height:100%;
+    width:60%;
+    background:#4CD964;
+    border-radius:10px;
+}
