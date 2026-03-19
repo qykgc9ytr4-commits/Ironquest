@@ -31,6 +31,13 @@ border-radius:12px;
 margin-top:10px;
 }
 
+input{
+padding:10px;
+font-size:18px;
+width:120px;
+text-align:center;
+}
+
 .bar{
 height:20px;
 background:#333;
@@ -42,9 +49,8 @@ margin-top:10px;
 .fill{
 height:100%;
 background:#4cff4c;
-width:30%;
+width:0%;
 }
-
 </style>
 </head>
 
@@ -53,20 +59,85 @@ width:30%;
 <h1>🔥 IronQuest</h1>
 
 <div class="card">
-<h2>Level 1</h2>
-<div class="bar"><div class="fill"></div></div>
-<p>XP: 120 / 400</p>
+<h2 id="exercise"></h2>
+<p id="set"></p>
+
+Peso<br>
+<input id="peso">
+
+<br><br>
+
+Reps<br>
+<input id="reps">
+
+<button onclick="mark()">MARCAR SÉRIE</button>
 </div>
 
 <div class="card">
-<h2>Missão de hoje</h2>
-<button onclick="start()">START QUEST</button>
+<h3>XP</h3>
+<div class="bar"><div class="fill" id="xpbar"></div></div>
+<p id="xptext"></p>
 </div>
 
 <script>
-function start(){
-alert("Treino iniciado 💪")
+
+let exercises = [
+"Lat Pulldown",
+"Remada Sentada",
+"Reverse Pec Deck",
+"Biceps Curl",
+"Hammer Curl"
+]
+
+let exIndex = parseInt(localStorage.getItem("exIndex")) || 0
+let set = parseInt(localStorage.getItem("set")) || 1
+let xp = parseInt(localStorage.getItem("xp")) || 0
+
+function save(){
+localStorage.setItem("exIndex",exIndex)
+localStorage.setItem("set",set)
+localStorage.setItem("xp",xp)
 }
+
+function render(){
+
+if(exIndex >= exercises.length){
+document.body.innerHTML =
+"<h1>🔥 Treino Completo</h1><h2>XP ganho: "+xp+"</h2>"
+return
+}
+
+document.getElementById("exercise").innerText = exercises[exIndex]
+document.getElementById("set").innerText = "Série "+set+" / 3"
+document.getElementById("xptext").innerText = xp+" XP"
+document.getElementById("xpbar").style.width = xp+"%"
+}
+
+function mark(){
+
+let peso = document.getElementById("peso").value
+let reps = document.getElementById("reps").value
+
+if(!peso || !reps){
+alert("Preenche peso e reps")
+return
+}
+
+xp += 5
+set++
+
+if(set > 3){
+set = 1
+exIndex++
+}
+
+save()
+render()
+
+}
+
+render()
+
 </script>
 
 </body>
