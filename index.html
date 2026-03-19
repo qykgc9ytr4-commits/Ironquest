@@ -31,6 +31,10 @@ border-radius:12px;
 margin-top:10px;
 }
 
+.navbtn{
+background:#444;
+}
+
 input{
 padding:10px;
 font-size:18px;
@@ -71,6 +75,10 @@ Reps<br>
 <input id="reps">
 
 <button onclick="mark()">MARCAR SÉRIE</button>
+
+<button class="navbtn" onclick="prev()">⬅️ Exercício anterior</button>
+<button class="navbtn" onclick="next()">➡️ Próximo exercício</button>
+
 </div>
 
 <div class="card">
@@ -101,11 +109,8 @@ localStorage.setItem("xp",xp)
 
 function render(){
 
-if(exIndex >= exercises.length){
-document.body.innerHTML =
-"<h1>🔥 Treino Completo</h1><h2>XP ganho: "+xp+"</h2>"
-return
-}
+if(exIndex < 0) exIndex = 0
+if(exIndex >= exercises.length) exIndex = exercises.length -1
 
 document.getElementById("exercise").innerText = exercises[exIndex]
 document.getElementById("set").innerText = "Série "+set+" / 3"
@@ -133,7 +138,20 @@ exIndex++
 
 save()
 render()
+}
 
+function prev(){
+exIndex--
+set = 1
+save()
+render()
+}
+
+function next(){
+exIndex++
+set = 1
+save()
+render()
 }
 
 render()
