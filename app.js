@@ -15,7 +15,6 @@ function showScreen(name){
 
 function startWorkout(type){
 
-    alert("start workout")
     currentWorkout = workouts[type]
     exerciseIndex = 0
     set = 1
