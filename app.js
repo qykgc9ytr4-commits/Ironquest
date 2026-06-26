@@ -5,6 +5,8 @@ legs:["Leg Press","Bulgarian Split Squat","Leg Curl","Leg Extension","Calf Raise
 }
 let currentWorkoutType=null
 
+let editingExercise=null
+
 let player=JSON.parse(localStorage.getItem("ironquest_player"))||{level:1,xp:0}
 
 let profile=JSON.parse(localStorage.getItem("ironquest_profile"))||{age:"",height:"",weight:""}
@@ -293,6 +295,7 @@ html+=`<h2>${day.toUpperCase()}</h2>`
 workouts[day].forEach(ex=>{
 
 html+=`
+
 <div style="
 display:flex;
 justify-content:space-between;
@@ -318,7 +321,6 @@ onclick="editExercise('${day}','${ex}')">
 
 </button>
 
-
 <button
 style="
 width:40px;
@@ -335,7 +337,36 @@ onclick="deleteExercise('${day}','${ex}')">
 </div>
 
 </div>
+
 `
+
+if(editingExercise===ex){
+
+html+=`
+
+<div class="card">
+
+<p>Séries</p>
+<input value="3">
+
+<p>Min reps</p>
+<input value="8">
+
+<p>Max reps</p>
+<input value="12">
+
+<button class="primary"
+onclick="saveExercise()">
+
+💾 Guardar
+
+</button>
+
+</div>
+
+`
+
+}
 
 })
 
@@ -379,6 +410,18 @@ renderPlan()
 }
 
 function editExercise(day,exercise){
+
+editingExercise=exercise
+
+renderPlan()
+
+}
+
+function saveExercise(){
+
+editingExercise=null
+
+renderPlan()
 
 }
 
