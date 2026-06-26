@@ -293,17 +293,33 @@ html+=`<h2>${day.toUpperCase()}</h2>`
 workouts[day].forEach(ex=>{
 
 html+=`
-<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;justify-content:space-between">
 
-<p>${ex.name}</p>
+<p>${ex}</p>
 
-<button onclick="deleteExercise('${day}','${ex.name}')">🗑️</button>
+<button onclick="deleteExercise('${day}','${ex}')">🗑️</button>
 
 </div>
 `
 
 })
 
+html+=`
+<button class="primary"
+onclick="addExercise('${day}')">
+
+➕ Adicionar Exercício
+
+</button>
+`
+
+html+=`</div>`
+
+})
+
+container.innerHTML=html
+
+}
 html+=`
 <button class="primary"
 onclick="addExercise('${day}')">
