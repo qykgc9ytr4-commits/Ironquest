@@ -268,4 +268,67 @@ localStorage.setItem("ironquest_history",JSON.stringify(history))
 renderChart()
 }
 
+function renderPlan(){
+
+let container=document.getElementById("plan-content")
+
+let html=""
+
+Object.keys(workouts).forEach(day=>{
+
+html+=`<div class="card">`
+
+html+=`<h2>${day.toUpperCase()}</h2>`
+
+workouts[day].forEach(ex=>{
+
+html+=`
+<div style="display:flex;justify-content:space-between">
+
+<p>${ex}</p>
+
+<button onclick="deleteExercise('${day}','${ex}')">🗑️</button>
+
+</div>
+`
+
+})
+
+html+=`
+<button class="primary"
+onclick="addExercise('${day}')">
+
+➕ Adicionar Exercício
+
+</button>
+`
+
+html+=`</div>`
+
+})
+
+container.innerHTML=html
+
+}
+
+function addExercise(day){
+
+let ex=prompt("Nome do exercício")
+
+if(!ex)return
+
+workouts[day].push(ex)
+
+renderPlan()
+
+}
+
+function deleteExercise(day,exercise){
+
+workouts[day]=workouts[day].filter(e=>e!==exercise)
+
+renderPlan()
+
+}
+
 updateHome()
