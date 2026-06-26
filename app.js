@@ -335,11 +335,10 @@ renderPlan()
 
 function deleteExercise(day,exercise){
 
-workouts[day]=workouts[day].filter(
-e=>e.name!==exercise
-)
+workouts[day]=workouts[day].filter(e=>e!==exercise)
 
 renderPlan()
 
 }
+
 updateHome()
