@@ -293,11 +293,46 @@ html+=`<h2>${day.toUpperCase()}</h2>`
 workouts[day].forEach(ex=>{
 
 html+=`
-<div style="display:flex;justify-content:space-between">
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:8px;
+">
 
-<p>${ex}</p>
+<p style="margin:0">${ex}</p>
 
-<button onclick="deleteExercise('${day}','${ex}')">🗑️</button>
+<div>
+
+<button
+style="
+width:40px;
+height:40px;
+padding:0;
+margin-right:4px;
+font-size:18px;
+"
+onclick="editExercise('${day}','${ex}')">
+
+✏️
+
+</button>
+
+
+<button
+style="
+width:40px;
+height:40px;
+padding:0;
+font-size:18px;
+"
+onclick="deleteExercise('${day}','${ex}')">
+
+🗑️
+
+</button>
+
+</div>
 
 </div>
 `
@@ -305,12 +340,14 @@ html+=`
 })
 
 html+=`
+
 <button class="primary"
 onclick="addExercise('${day}')">
 
 ➕ Adicionar Exercício
 
 </button>
+
 `
 
 html+=`</div>`
@@ -338,6 +375,10 @@ function deleteExercise(day,exercise){
 workouts[day]=workouts[day].filter(e=>e!==exercise)
 
 renderPlan()
+
+}
+
+function editExercise(day,exercise){
 
 }
 
