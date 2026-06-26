@@ -1,37 +1,8 @@
 let workouts={
-
-push:[
-
-{name:"Chest Press",sets:3,min:8,max:12},
-{name:"Shoulder Press",sets:3,min:8,max:10},
-{name:"Lateral Raises",sets:3,min:12,max:15},
-{name:"Triceps Pushdown",sets:3,min:10,max:12},
-{name:"Plank",sets:2,min:20,max:40}
-
-],
-
-pull:[
-
-{name:"Lat Pulldown",sets:3,min:8,max:12},
-{name:"Seated Row",sets:3,min:8,max:12},
-{name:"Reverse Pec Deck",sets:3,min:12,max:15},
-{name:"Biceps Curl",sets:3,min:10,max:12},
-{name:"Hammer Curl",sets:3,min:10,max:12}
-
-],
-
-legs:[
-
-{name:"Leg Press",sets:3,min:10,max:12},
-{name:"Bulgarian Split Squat",sets:3,min:8,max:10},
-{name:"Leg Curl",sets:3,min:10,max:12},
-{name:"Leg Extension",sets:3,min:10,max:12},
-{name:"Calf Raise",sets:3,min:12,max:15}
-
-]
-
+push:["Chest Press","Shoulder Press","Lateral Raises","Triceps Pushdown","Plank"],
+pull:["Lat Pulldown","Seated Row","Reverse Pec Deck","Biceps Curl","Hammer Curl"],
+legs:["Leg Press","Bulgarian Split Squat","Leg Curl","Leg Extension","Calf Raise"]
 }
-
 let currentWorkoutType=null
 
 let player=JSON.parse(localStorage.getItem("ironquest_player"))||{level:1,xp:0}
