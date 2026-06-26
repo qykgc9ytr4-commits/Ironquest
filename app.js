@@ -320,39 +320,6 @@ html+=`</div>`
 container.innerHTML=html
 
 }
-html+=`
-<button class="primary"
-onclick="addExercise('${day}')">
-
-➕ Adicionar Exercício
-
-</button>
-`
-
-html+=`</div>`
-
-})
-
-container.innerHTML=html
-
-}
-
-html+=`
-<button class="primary"
-onclick="addExercise('${day}')">
-
-➕ Adicionar Exercício
-
-</button>
-`
-
-html+=`</div>`
-
-})
-
-container.innerHTML=html
-
-}
 
 function addExercise(day){
 
