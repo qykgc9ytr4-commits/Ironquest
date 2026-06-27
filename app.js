@@ -346,21 +346,27 @@ onclick="deleteExercise('${day}','${ex}')">
 
 if(editingExercise===ex){
 
+let s=exerciseSettings[ex]||{
+sets:3,
+min:8,
+max:12
+}
+
 html+=`
 
 <div class="card">
 
 <p>Séries</p>
-<input value="3">
+<input id="sets" value="${s.sets}">
 
 <p>Min reps</p>
-<input value="8">
+<input id="min" value="${s.min}">
 
 <p>Max reps</p>
-<input value="12">
+<input id="max" value="${s.max}">
 
 <button class="primary"
-onclick="saveExercise()">
+onclick="saveExercise('${ex}')">
 
 💾 Guardar
 
