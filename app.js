@@ -11,6 +11,8 @@ let player=JSON.parse(localStorage.getItem("ironquest_player"))||{level:1,xp:0}
 
 let profile=JSON.parse(localStorage.getItem("ironquest_profile"))||{age:"",height:"",weight:""}
 
+let weighIns=JSON.parse(localStorage.getItem("ironquest_weighins"))||[]
+
 let exerciseSettings=JSON.parse(
 localStorage.getItem("ironquest_settings")
 )||{}
@@ -24,6 +26,7 @@ document.getElementById("screen-"+screen).classList.add("active")
 if(screen==="profile"){
 loadStats()
 loadProfile()
+renderWeightChart()
 }
 
 if(screen==="plan"){
@@ -199,11 +202,27 @@ document.getElementById("levelup-popup").style.display="none"
 }
 
 function loadProfile(){
+
 let view=document.getElementById("profile-view")
+
+let currentWeight=profile.weight
+
+if(weighIns.length){
+
+currentWeight=weighIns[weighIns.length-1].weight
+
+}
+
 view.innerHTML=`
+
 <p>Idade: ${profile.age||"-"}</p>
+
 <p>Altura: ${profile.height||"-"} cm</p>
-<p>Peso: ${profile.weight||"-"} kg</p>`
+
+<p>Peso: ${currentWeight||"-"} kg</p>
+
+`
+
 }
 
 function editProfile(){
@@ -482,6 +501,85 @@ JSON.stringify(exerciseSettings)
 editingExercise=null
 
 renderPlan()
+
+}
+
+function saveWeighIn(){
+
+let date=document.getElementById("weigh-date").value
+let weight=document.getElementById("weigh-weight").value
+
+if(!date || !weight)return
+
+
+weighIns.push({
+
+date:date,
+
+weight:Number(weight)
+
+})
+
+
+localStorage.setItem(
+
+"ironquest_weighins",
+
+JSON.stringify(weighIns)
+
+)
+
+
+document.getElementById("weigh-date").value=""
+document.getElementById("weigh-weight").value=""
+
+
+loadProfile()
+
+renderWeightChart()
+
+}
+
+function renderWeightChart(){
+
+let ctx=document.getElementById("weight-chart")
+
+if(!ctx)return
+
+
+let labels=weighIns.map(w=>w.date)
+
+let data=weighIns.map(w=>w.weight)
+
+
+if(window.weightChart){
+
+window.weightChart.destroy()
+
+}
+
+
+window.weightChart=new Chart(ctx,{
+
+type:"line",
+
+data:{
+
+labels,
+
+datasets:[{
+
+label:"Peso",
+
+data,
+
+tension:0.3
+
+}]
+
+}
+
+})
 
 }
 
