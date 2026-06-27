@@ -7,6 +7,8 @@ let currentWorkoutType=null
 
 let editingExercise=null
 
+let showAllWeights=false
+
 let player=JSON.parse(localStorage.getItem("ironquest_player"))||{level:1,xp:0}
 
 let profile=JSON.parse(localStorage.getItem("ironquest_profile"))||{age:"",height:"",weight:""}
