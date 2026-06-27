@@ -695,4 +695,12 @@ toggle.innerHTML=""
 
 }
 
+function toggleWeights(){
+
+showAllWeights=!showAllWeights
+
+renderWeighHistory()
+
+}
+
 updateHome()
