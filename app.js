@@ -616,16 +616,13 @@ let toggle=document.getElementById("weigh-toggle")
 
 if(!history)return
 
-
 let sorted=[...weighIns].sort((a,b)=>
 new Date(b.date)-new Date(a.date)
 )
 
+let shown=showAllWeights ? sorted : sorted.slice(0,3)
 
-let recent=sorted.slice(0,3)
-
-
-history.innerHTML=recent.map(w=>{
+history.innerHTML=shown.map((w,i)=>{
 
 let d=new Date(w.date)
 
@@ -648,7 +645,16 @@ margin-top:8px;
 
 <span>${date}</span>
 
+<div>
+
 <span>${w.weight} kg</span>
+
+${showAllWeights ? `
+<button style="margin-left:8px">✏️</button>
+<button>🗑️</button>
+` : ""}
+
+</div>
 
 </div>
 
@@ -660,14 +666,23 @@ margin-top:8px;
 if(sorted.length>3){
 
 toggle.innerHTML=`
-<p style="
+
+<p
+style="
 text-align:center;
 margin-top:10px;
-">
+cursor:pointer;
+"
+onclick="toggleWeights()"
+>
 
-▼ Ver todas (${sorted.length})
+${showAllWeights
+? `▲ Mostrar menos`
+: `▼ Ver todas (${sorted.length})`
+}
 
 </p>
+
 `
 
 }
