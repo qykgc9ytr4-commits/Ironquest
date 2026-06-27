@@ -634,6 +634,11 @@ month:'2-digit'
 }
 )
 
+let index=weighIns.findIndex(x=>
+x.date===w.date &&
+x.weight===w.weight
+)
+
 return `
 
 <div style="
@@ -650,8 +655,24 @@ margin-top:8px;
 <span>${w.weight} kg</span>
 
 ${showAllWeights ? `
-<button style="margin-left:8px">✏️</button>
-<button>🗑️</button>
+
+<button
+onclick="editWeigh(${index})"
+style="margin-left:8px"
+>
+
+✏️
+
+</button>
+
+<button
+onclick="deleteWeigh(${index})"
+>
+
+🗑️
+
+</button>
+
 ` : ""}
 
 </div>
@@ -698,6 +719,72 @@ toggle.innerHTML=""
 function toggleWeights(){
 
 showAllWeights=!showAllWeights
+
+renderWeighHistory()
+
+}
+
+function editWeigh(index){
+
+let weight=prompt(
+
+"Novo peso:",
+
+weighIns[index].weight
+
+)
+
+if(weight===null)return
+
+
+weighIns[index].weight=Number(weight)
+
+
+localStorage.setItem(
+
+"ironquest_weighins",
+
+JSON.stringify(weighIns)
+
+)
+
+
+loadProfile()
+
+renderWeightChart()
+
+renderWeighHistory()
+
+}
+
+function deleteWeigh(index){
+
+if(
+
+!confirm(
+
+"Apagar esta pesagem?"
+
+)
+
+)return
+
+
+weighIns.splice(index,1)
+
+
+localStorage.setItem(
+
+"ironquest_weighins",
+
+JSON.stringify(weighIns)
+
+)
+
+
+loadProfile()
+
+renderWeightChart()
 
 renderWeighHistory()
 
