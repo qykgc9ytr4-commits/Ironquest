@@ -427,7 +427,25 @@ renderPlan()
 
 }
 
-function saveExercise(){
+function saveExercise(ex){
+
+exerciseSettings[ex]={
+
+sets:Number(document.getElementById("sets").value),
+
+min:Number(document.getElementById("min").value),
+
+max:Number(document.getElementById("max").value)
+
+}
+
+localStorage.setItem(
+
+"ironquest_settings",
+
+JSON.stringify(exerciseSettings)
+
+)
 
 editingExercise=null
 
