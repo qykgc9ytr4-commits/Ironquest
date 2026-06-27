@@ -547,9 +547,30 @@ let ctx=document.getElementById("weight-chart")
 if(!ctx)return
 
 
-let labels=weighIns.map(w=>w.date)
+let sorted=[...weighIns].sort((a,b)=>
+new Date(a.date)-new Date(b.date)
+)
 
-let data=weighIns.map(w=>w.weight)
+
+let labels=sorted.map(w=>{
+
+let d=new Date(w.date)
+
+return d.toLocaleDateString(
+
+'pt-PT',
+
+{
+day:'2-digit',
+month:'2-digit'
+}
+
+)
+
+})
+
+
+let data=sorted.map(w=>w.weight)
 
 
 if(window.weightChart){
