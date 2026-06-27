@@ -11,6 +11,10 @@ let player=JSON.parse(localStorage.getItem("ironquest_player"))||{level:1,xp:0}
 
 let profile=JSON.parse(localStorage.getItem("ironquest_profile"))||{age:"",height:"",weight:""}
 
+let exerciseSettings=JSON.parse(
+localStorage.getItem("ironquest_settings")
+)||{}
+
 function showScreen(screen){
 
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
