@@ -27,6 +27,7 @@ if(screen==="profile"){
 loadStats()
 loadProfile()
 renderWeightChart()
+renderWeighHistory()
 }
 
 if(screen==="plan"){
@@ -538,6 +539,8 @@ loadProfile()
 
 renderWeightChart()
 
+renderWeighHistory()
+
 }
 
 function renderWeightChart(){
@@ -601,6 +604,77 @@ tension:0.3
 }
 
 })
+
+}
+
+function renderWeighHistory(){
+
+let history=document.getElementById("weigh-history")
+let toggle=document.getElementById("weigh-toggle")
+
+if(!history)return
+
+
+let sorted=[...weighIns].sort((a,b)=>
+new Date(b.date)-new Date(a.date)
+)
+
+
+let recent=sorted.slice(0,3)
+
+
+history.innerHTML=recent.map(w=>{
+
+let d=new Date(w.date)
+
+let date=d.toLocaleDateString(
+'pt-PT',
+{
+day:'2-digit',
+month:'2-digit'
+}
+)
+
+return `
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:8px;
+">
+
+<span>${date}</span>
+
+<span>${w.weight} kg</span>
+
+</div>
+
+`
+
+}).join("")
+
+
+if(sorted.length>3){
+
+toggle.innerHTML=`
+<p style="
+text-align:center;
+margin-top:10px;
+">
+
+▼ Ver todas (${sorted.length})
+
+</p>
+`
+
+}
+
+else{
+
+toggle.innerHTML=""
+
+}
 
 }
 
