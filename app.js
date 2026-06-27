@@ -55,10 +55,24 @@ let html=""
 
 workout.forEach(ex=>{
 
-let validLogs=history.filter(l=>l.exercise===ex&&l.reps>=8&&l.reps<=12)
-let pr=validLogs.length?Math.max(...validLogs.map(l=>Number(l.weight))):"-"
+let s=exerciseSettings[ex]||{
+sets:ex==="Plank"?2:3,
+min:8,
+max:12
+}
 
-let target=ex==="Plank"?2:3
+let validLogs=history.filter(l=>
+l.exercise===ex &&
+l.reps>=s.min &&
+l.reps<=s.max
+)
+
+let pr=validLogs.length
+?Math.max(...validLogs.map(l=>Number(l.weight)))
+:"-"
+
+let target=s.sets
+
 let done=current.filter(l=>l.exercise===ex).length
 let complete=done>=target
 
@@ -75,12 +89,15 @@ html+=`
 <input id="${ex}-r-${i}" value="${prev?prev.reps:""}" placeholder="Reps">
 <button onclick="saveSet('${ex}',${i})">✓</button>
 </div>`
+
 }
 
 html+=`</div>`
+
 })
 
 container.innerHTML=html
+
 }
 
 function saveSet(exercise,set){
