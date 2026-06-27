@@ -136,16 +136,31 @@ showScreen("workout")
 function calculateXP(){
 
 let current=JSON.parse(localStorage.getItem("ironquest_current"))||[]
+
 let exercises=[...new Set(current.map(l=>l.exercise))]
+
 let completed=0
 
 exercises.forEach(ex=>{
-let target=ex==="Plank"?2:3
+
+let s=exerciseSettings[ex]||{
+sets:ex==="Plank"?2:3,
+min:8,
+max:12
+}
+
+let target=s.sets
+
 let done=current.filter(l=>l.exercise===ex).length
-if(done>=target) completed++
+
+if(done>=target){
+completed++
+}
+
 })
 
 return 40+(completed*5)
+
 }
 
 function gainXP(amount){
