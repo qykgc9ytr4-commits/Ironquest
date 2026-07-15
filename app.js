@@ -71,23 +71,57 @@ min:8,
 max:12
 }
 
-let validLogs=history.filter(l=>
-l.exercise===ex &&
-l.reps>=s.min &&
-l.reps<=s.max
-)
+// Último treino deste exercício
+let logs=history.filter(l=>l.exercise===ex)
 
-let pr=validLogs.length
-?Math.max(...validLogs.map(l=>Number(l.weight)))
-:"-"
+let recommendation="-"
+let lastWeight="-"
+
+if(logs.length){
+
+let lastSets=logs.slice(-s.sets)
+
+if(lastSets.length===s.sets){
+
+lastWeight=lastSets[lastSets.length-1].weight
+
+let lastReps=Number(lastSets[lastSets.length-1].reps)
+
+if(lastReps>=s.max){
+
+recommendation="🟢 Aumenta"
+
+}
+
+else if(lastReps<s.min){
+
+recommendation="🔴 Desce"
+
+}
+
+else{
+
+recommendation="🟡 Mantém"
+
+}
+
+}
+
+}
 
 let target=s.sets
-
 let done=current.filter(l=>l.exercise===ex).length
 let complete=done>=target
 
-html+=`<div class="card ${complete?'done':''}">
-<h3>${ex} PR ${pr}kg ${complete?'✔':''}</h3>`
+html+=`
+<div class="card ${complete?'done':''}">
+
+<h3>${ex} ${complete?'✔':''}</h3>
+
+<p><b>Peso:</b> ${lastWeight} kg</p>
+
+<p>${recommendation}</p>
+`
 
 for(let i=1;i<=target;i++){
 
@@ -98,7 +132,8 @@ html+=`
 <input id="${ex}-w-${i}" value="${prev?prev.weight:""}" placeholder="Peso">
 <input id="${ex}-r-${i}" value="${prev?prev.reps:""}" placeholder="Reps">
 <button onclick="saveSet('${ex}',${i})">✓</button>
-</div>`
+</div>
+`
 
 }
 
