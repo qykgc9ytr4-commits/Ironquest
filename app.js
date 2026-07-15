@@ -1,7 +1,11 @@
-let workouts={
+let workouts=JSON.parse(localStorage.getItem("ironquest_workouts"))||{
+
 push:["Chest Press","Shoulder Press","Lateral Raises","Triceps Pushdown","Plank"],
+
 pull:["Lat Pulldown","Seated Row","Reverse Pec Deck","Biceps Curl","Hammer Curl"],
+
 legs:["Leg Press","Bulgarian Split Squat","Leg Curl","Leg Extension","Calf Raise"]
+
 }
 let currentWorkoutType=null
 
