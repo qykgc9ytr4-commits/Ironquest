@@ -172,16 +172,72 @@ renderWorkout()
 }
 
 function finishWorkout(){
+
+let current=JSON.parse(localStorage.getItem("ironquest_current"))||[]
+
+Object.keys(workouts).forEach(day=>{
+
+workouts[day].forEach(ex=>{
+
+let s=exerciseSettings[ex]||{
+sets:ex==="Plank"?2:3,
+min:8,
+max:12
+}
+
+let sets=current.filter(l=>l.exercise===ex)
+
+if(sets.length!==s.sets)return
+
+let weights=[...new Set(sets.map(l=>Number(l.weight)))]
+
+if(weights.length!==1)return
+
+let weight=weights[0]
+
+let recommendation="🟢 Mantém"
+
+if(sets.every(l=>Number(l.reps)>=s.max)){
+
+recommendation="🟡 Aumenta"
+
+}
+
+else if(sets.some(l=>Number(l.reps)<s.min)){
+
+recommendation="🔴 Desce"
+
+}
+
+recommendations[ex]={
+
+weight:weight,
+
+recommendation:recommendation
+
+}
+
+})
+
+})
+
+localStorage.setItem(
+"ironquest_recommendations",
+JSON.stringify(recommendations)
+)
+
 let xp=calculateXP()
 gainXP(xp)
+
 document.getElementById("navbar").style.display="flex"
 document.getElementById("workout-picker").style.display="block"
 document.getElementById("finish-container").style.display="none"
 document.getElementById("workout-list").innerHTML=""
 document.getElementById("workout-title").innerText="Treino"
-showScreen("workout")
-}
 
+showScreen("workout")
+
+}
 function calculateXP(){
 
 let current=JSON.parse(localStorage.getItem("ironquest_current"))||[]
