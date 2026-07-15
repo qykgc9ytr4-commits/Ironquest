@@ -508,11 +508,13 @@ max:Number(document.getElementById("max").value)
 }
 
 localStorage.setItem(
-
 "ironquest_settings",
-
 JSON.stringify(exerciseSettings)
+)
 
+localStorage.setItem(
+"ironquest_workouts",
+JSON.stringify(workouts)
 )
 
 editingExercise=null
