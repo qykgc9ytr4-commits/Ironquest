@@ -23,6 +23,10 @@ let exerciseSettings=JSON.parse(
 localStorage.getItem("ironquest_settings")
 )||{}
 
+let recommendations=JSON.parse(
+localStorage.getItem("ironquest_recommendations")
+)||{}
+
 function showScreen(screen){
 
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"))
