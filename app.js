@@ -478,6 +478,11 @@ function deleteExercise(day,exercise){
 
 workouts[day]=workouts[day].filter(e=>e!==exercise)
 
+localStorage.setItem(
+"ironquest_workouts",
+JSON.stringify(workouts)
+)
+
 renderPlan()
 
 }
