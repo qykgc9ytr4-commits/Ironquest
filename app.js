@@ -62,7 +62,6 @@ function renderWorkout(){
 let container=document.getElementById("workout-list")
 let workout=workouts[currentWorkoutType]
 
-let history=JSON.parse(localStorage.getItem("ironquest_history"))||[]
 let current=JSON.parse(localStorage.getItem("ironquest_current"))||[]
 
 let html=""
@@ -75,56 +74,27 @@ min:8,
 max:12
 }
 
-// Último treino deste exercício
-let logs=history.filter(l=>l.exercise===ex)
-
-let recommendation="-"
-let lastWeight="-"
-
-if(logs.length){
-
-let lastSets=logs.slice(-s.sets)
-
-if(lastSets.length===s.sets){
-
-lastWeight=lastSets[lastSets.length-1].weight
-
-let lastReps=Number(lastSets[lastSets.length-1].reps)
-
-if(lastReps>=s.max){
-
-recommendation="🟢 Aumenta"
-
-}
-
-else if(lastReps<s.min){
-
-recommendation="🔴 Desce"
-
-}
-
-else{
-
-recommendation="🟡 Mantém"
-
-}
-
-}
-
+let rec=recommendations[ex]||{
+weight:"—",
+recommendation:"Sem recomendação"
 }
 
 let target=s.sets
+
 let done=current.filter(l=>l.exercise===ex).length
+
 let complete=done>=target
 
 html+=`
+
 <div class="card ${complete?'done':''}">
 
 <h3>${ex} ${complete?'✔':''}</h3>
 
-<p><b>Peso:</b> ${lastWeight} kg</p>
+<p><b>${rec.weight} kg</b></p>
 
-<p>${recommendation}</p>
+<p>${rec.recommendation}</p>
+
 `
 
 for(let i=1;i<=target;i++){
@@ -132,11 +102,23 @@ for(let i=1;i<=target;i++){
 let prev=current.find(l=>l.exercise===ex&&l.set===i)
 
 html+=`
+
 <div style="display:flex;gap:8px;margin-top:6px">
-<input id="${ex}-w-${i}" value="${prev?prev.weight:""}" placeholder="Peso">
-<input id="${ex}-r-${i}" value="${prev?prev.reps:""}" placeholder="Reps">
+
+<input
+id="${ex}-w-${i}"
+value="${prev?prev.weight:""}"
+placeholder="Peso">
+
+<input
+id="${ex}-r-${i}"
+value="${prev?prev.reps:""}"
+placeholder="Reps">
+
 <button onclick="saveSet('${ex}',${i})">✓</button>
+
 </div>
+
 `
 
 }
@@ -148,7 +130,6 @@ html+=`</div>`
 container.innerHTML=html
 
 }
-
 function saveSet(exercise,set){
 
 let weight=document.getElementById(`${exercise}-w-${set}`).value
