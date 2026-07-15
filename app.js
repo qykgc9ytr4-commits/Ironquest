@@ -465,6 +465,11 @@ if(!ex)return
 
 workouts[day].push(ex)
 
+localStorage.setItem(
+"ironquest_workouts",
+JSON.stringify(workouts)
+)
+
 renderPlan()
 
 }
