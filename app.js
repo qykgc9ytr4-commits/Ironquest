@@ -176,11 +176,11 @@ if(weights.length!==1)return
 
 let weight=weights[0]
 
-let recommendation="🟢 Mantém"
+let recommendation="🟡 Mantém"
 
 if(sets.every(l=>Number(l.reps)>=s.max)){
 
-recommendation="🟡 Aumenta"
+recommendation="🟢 Aumenta"
 
 }
 
